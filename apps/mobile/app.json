@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Camper",
+    "slug": "camper",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "camper",
+    "splash": {
+      "backgroundColor": "#166534"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.camper.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#166534"
+      },
+      "package": "ai.camper.app"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

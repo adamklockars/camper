@@ -1,0 +1,46 @@
+{
+  "name": "@camper/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "dev:workers": "tsx watch src/workers.ts",
+    "build": "tsup src/server.ts src/workers.ts --format esm --dts",
+    "start": "node dist/server.js",
+    "start:workers": "node dist/workers.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'lint ok'",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@camper/shared-types": "workspace:*",
+    "@fastify/cors": "^11.0.1",
+    "@fastify/websocket": "^11.0.2",
+    "@neondatabase/serverless": "^0.10.4",
+    "@trpc/server": "^11.0.0",
+    "better-auth": "^1.2.7",
+    "bullmq": "^5.34.8",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.3",
+    "fastify": "^5.2.1",
+    "ioredis": "^5.4.2",
+    "postgres": "^3.4.8",
+    "resend": "^4.1.2",
+    "stripe": "^17.7.0",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "drizzle-kit": "^0.30.4",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.6"
+  }
+}

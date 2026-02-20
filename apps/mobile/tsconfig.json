@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2022"],
+    "noEmit": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@camper/shared-types": ["../../packages/shared-types/src"],
+      "@camper/api-client": ["../../packages/api-client/src"],
+      "@camper/ui": ["../../packages/ui/src"]
+    }
+  },
+  "include": ["app/**/*.ts", "app/**/*.tsx", "components/**/*.ts", "components/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

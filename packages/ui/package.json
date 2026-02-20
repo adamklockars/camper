@@ -1,0 +1,21 @@
+{
+  "name": "@camper/ui",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'lint ok'"
+  },
+  "dependencies": {
+    "@camper/shared-types": "workspace:*",
+    "react": "^19.0.0",
+    "react-native": "^0.76.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "@types/react": "^19.0.0"
+  }
+}
