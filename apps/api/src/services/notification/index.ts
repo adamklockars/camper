@@ -29,7 +29,7 @@ export interface SendNotificationParams {
 /**
  * Check whether the current time falls within a user's quiet hours.
  */
-function isQuietHours(
+export function isQuietHours(
   prefs: {
     quietHoursStart: string | null;
     quietHoursEnd: string | null;

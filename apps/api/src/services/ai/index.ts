@@ -43,7 +43,7 @@ export interface ChatResult {
 /**
  * Handle a tool call from Claude and return the result.
  */
-async function handleToolCall(
+export async function handleToolCall(
   toolName: string,
   toolInput: Record<string, unknown>,
   userId: string
@@ -178,7 +178,7 @@ async function handleToolCall(
 /**
  * Build rich content from the assistant response and tool results.
  */
-function extractRichContent(
+export function extractRichContent(
   toolName: string,
   toolResult: string
 ): Array<{ type: string; data: Record<string, unknown> }> | null {
