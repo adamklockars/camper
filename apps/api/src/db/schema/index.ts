@@ -30,6 +30,7 @@ export const messageRoleEnum = pgEnum("message_role", [
 export const platformEnum = pgEnum("platform", [
   "recreation_gov",
   "parks_canada",
+  "ontario_parks",
   "reserve_america",
   "hipcamp",
   "glamping_hub",
@@ -67,6 +68,23 @@ export const notificationTypeEnum = pgEnum("notification_type", [
   "booking_reminder",
   "alert_expired",
   "system",
+]);
+
+export const snipeStatusEnum = pgEnum("snipe_status", [
+  "scheduled",
+  "pre_staging",
+  "executing",
+  "succeeded",
+  "failed",
+  "cancelled",
+]);
+
+export const equipmentTypeEnum = pgEnum("equipment_type", [
+  "tent",
+  "rv",
+  "trailer",
+  "van",
+  "no_equipment",
 ]);
 
 // ─── Tables ─────────────────────────────────────────────────────────────────
@@ -340,6 +358,62 @@ export const notificationPreferences = pgTable("notification_preferences", {
   timezone: varchar("timezone", { length: 100 }).default("UTC").notNull(),
 });
 
+export const platformCredentials = pgTable(
+  "platform_credentials",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    platform: platformEnum("platform").notNull(),
+    encryptedCredentials: json("encrypted_credentials")
+      .$type<{ iv: string; authTag: string; data: string }>()
+      .notNull(),
+    lastValidatedAt: timestamp("last_validated_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex("platform_credentials_user_platform_idx").on(
+      table.userId,
+      table.platform,
+    ),
+  ],
+);
+
+export const snipes = pgTable("snipes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  platformCredentialId: uuid("platform_credential_id")
+    .notNull()
+    .references(() => platformCredentials.id),
+  campgroundId: varchar("campground_id", { length: 255 }).notNull(),
+  campgroundName: varchar("campground_name", { length: 500 }).notNull(),
+  platform: platformEnum("platform").notNull(),
+  arrivalDate: date("arrival_date").notNull(),
+  departureDate: date("departure_date").notNull(),
+  sitePreferences: json("site_preferences").$type<string[]>().notNull(),
+  equipmentType: equipmentTypeEnum("equipment_type").notNull(),
+  occupants: integer("occupants").notNull(),
+  windowOpensAt: timestamp("window_opens_at", { withTimezone: true }).notNull(),
+  status: snipeStatusEnum("status").default("scheduled").notNull(),
+  resultBookingId: varchar("result_booking_id", { length: 255 }),
+  failureReason: text("failure_reason"),
+  executedAt: timestamp("executed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
 // ─── Relations ──────────────────────────────────────────────────────────────
 
 export const usersRelations = relations(users, ({ many, one }) => ({
@@ -358,6 +432,8 @@ export const usersRelations = relations(users, ({ many, one }) => ({
     fields: [users.id],
     references: [notificationPreferences.userId],
   }),
+  platformCredentials: many(platformCredentials),
+  snipes: many(snipes),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -442,3 +518,22 @@ export const notificationPreferencesRelations = relations(
     }),
   })
 );
+
+export const platformCredentialsRelations = relations(
+  platformCredentials,
+  ({ one, many }) => ({
+    user: one(users, {
+      fields: [platformCredentials.userId],
+      references: [users.id],
+    }),
+    snipes: many(snipes),
+  })
+);
+
+export const snipesRelations = relations(snipes, ({ one }) => ({
+  user: one(users, { fields: [snipes.userId], references: [users.id] }),
+  platformCredential: one(platformCredentials, {
+    fields: [snipes.platformCredentialId],
+    references: [platformCredentials.id],
+  }),
+}));

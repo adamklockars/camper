@@ -2,12 +2,14 @@ import "dotenv/config";
 import { scanWorker, startScannerScheduler } from "./jobs/workers/availability-scanner.worker.js";
 import { bookingWorker } from "./jobs/workers/booking-executor.worker.js";
 import { notificationWorker } from "./jobs/workers/notification.worker.js";
+import { snipeExecutorWorker } from "./jobs/workers/snipe-executor.worker.js";
 
 async function start() {
   console.log("Starting Camper background workers...");
   console.log(`  [scanner]        ${scanWorker.name} — concurrency 5`);
   console.log(`  [booking]        ${bookingWorker.name} — concurrency 2`);
   console.log(`  [notifications]  ${notificationWorker.name} — concurrency 10`);
+  console.log(`  [snipe]          ${snipeExecutorWorker.name} — concurrency 5`);
 
   await startScannerScheduler();
 
@@ -21,6 +23,7 @@ async function shutdown() {
     scanWorker.close(),
     bookingWorker.close(),
     notificationWorker.close(),
+    snipeExecutorWorker.close(),
   ]);
   console.log("Workers stopped.");
   process.exit(0);

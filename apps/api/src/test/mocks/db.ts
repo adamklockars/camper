@@ -50,9 +50,19 @@ export function createMockDb() {
         findFirst: vi.fn(),
         findMany: vi.fn().mockResolvedValue([]),
       },
+      platformCredentials: {
+        findFirst: vi.fn(),
+        findMany: vi.fn().mockResolvedValue([]),
+      },
+      snipes: {
+        findFirst: vi.fn(),
+        findMany: vi.fn().mockResolvedValue([]),
+      },
     },
     insert: vi.fn().mockReturnValue({ values: valuesFn }),
     update: vi.fn().mockReturnValue({ set: setFn }),
+    delete: vi.fn().mockReturnValue({ where: vi.fn().mockReturnValue({ returning: returningFn }) }),
+    select: vi.fn().mockReturnValue({ from: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue([{ count: 0 }]) }) }),
     // Expose inner mocks for per-test configuration
     _returning: returningFn,
     _where: whereFn,

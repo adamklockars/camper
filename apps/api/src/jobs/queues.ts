@@ -46,5 +46,14 @@ export const notificationQueue = new Queue("notifications", {
   },
 });
 
+export const snipeExecutorQueue = new Queue("snipe-executor", {
+  connection,
+  defaultJobOptions: {
+    removeOnComplete: { count: 500 },
+    removeOnFail: { count: 1000 },
+    attempts: 1, // No retry — window is time-critical
+  },
+});
+
 // Export connection for workers to share
 export { connection as redisConnection };

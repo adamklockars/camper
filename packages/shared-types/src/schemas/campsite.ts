@@ -3,6 +3,7 @@ import { z } from "zod";
 export const platformSchema = z.enum([
   "recreation_gov",
   "parks_canada",
+  "ontario_parks",
   "reserve_america",
   "hipcamp",
   "glamping_hub",

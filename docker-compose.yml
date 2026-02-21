@@ -31,6 +31,20 @@ services:
       timeout: 5s
       retries: 5
 
+  camply-sidecar:
+    build:
+      context: ./apps/camply-sidecar
+      dockerfile: Dockerfile
+    container_name: camper-camply-sidecar
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   postgres_data:
   redis_data:

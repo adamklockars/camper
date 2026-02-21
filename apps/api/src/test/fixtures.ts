@@ -5,6 +5,8 @@ export const TEST_CAMPGROUND_ID = "00000000-0000-0000-0000-000000000004";
 export const TEST_CAMPSITE_ID = "00000000-0000-0000-0000-000000000005";
 export const TEST_CONVERSATION_ID = "00000000-0000-0000-0000-000000000006";
 export const TEST_NOTIFICATION_ID = "00000000-0000-0000-0000-000000000007";
+export const TEST_SNIPE_ID = "00000000-0000-0000-0000-000000000008";
+export const TEST_CREDENTIAL_ID = "00000000-0000-0000-0000-000000000009";
 
 export function makeCampsite(overrides: Record<string, unknown> = {}) {
   return {
@@ -76,6 +78,42 @@ export function makeAlert(overrides: Record<string, unknown> = {}) {
       externalId: "ext-cg-123",
       name: "Test Campground",
     },
+    ...overrides,
+  };
+}
+
+export function makeSnipe(overrides: Record<string, unknown> = {}) {
+  return {
+    id: TEST_SNIPE_ID,
+    userId: TEST_USER_ID,
+    platformCredentialId: TEST_CREDENTIAL_ID,
+    campgroundId: "cg-algonquin-123",
+    campgroundName: "Algonquin Provincial Park",
+    platform: "ontario_parks" as const,
+    arrivalDate: "2027-08-15",
+    departureDate: "2027-08-18",
+    sitePreferences: ["site-101", "site-102", "site-103"],
+    equipmentType: "tent" as const,
+    occupants: 4,
+    windowOpensAt: new Date("2027-03-15T12:00:00.000Z"),
+    status: "scheduled" as const,
+    resultBookingId: null,
+    failureReason: null,
+    executedAt: null,
+    createdAt: new Date("2026-12-01"),
+    updatedAt: new Date("2026-12-01"),
+    ...overrides,
+  };
+}
+
+export function makeCredential(overrides: Record<string, unknown> = {}) {
+  return {
+    id: TEST_CREDENTIAL_ID,
+    userId: TEST_USER_ID,
+    platform: "ontario_parks" as const,
+    lastValidatedAt: null,
+    createdAt: new Date("2026-12-01"),
+    updatedAt: new Date("2026-12-01"),
     ...overrides,
   };
 }

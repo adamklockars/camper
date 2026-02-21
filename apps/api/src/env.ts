@@ -20,6 +20,8 @@ export const env = {
   RESEND_API_KEY: optional("RESEND_API_KEY", ""),
   BETTER_AUTH_SECRET: required("BETTER_AUTH_SECRET"),
   BETTER_AUTH_URL: required("BETTER_AUTH_URL"),
+  CREDENTIAL_ENCRYPTION_KEY: optional("CREDENTIAL_ENCRYPTION_KEY", ""),
+  CAMPLY_SIDECAR_URL: optional("CAMPLY_SIDECAR_URL", "http://localhost:8000"),
   CORS_ORIGIN: optional("CORS_ORIGIN", "http://localhost:3000"),
   PORT: parseInt(optional("PORT", "4000"), 10),
 } as const;

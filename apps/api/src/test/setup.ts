@@ -7,6 +7,8 @@ vi.mock("../../env.js", () => ({
     RESEND_API_KEY: "",
     BETTER_AUTH_SECRET: "test-secret",
     BETTER_AUTH_URL: "http://localhost:4000",
+    CREDENTIAL_ENCRYPTION_KEY: "test-encryption-key-32-chars-ok!",
+    CAMPLY_SIDECAR_URL: "http://localhost:8000",
     CORS_ORIGIN: "http://localhost:3000",
     PORT: 4000,
   },

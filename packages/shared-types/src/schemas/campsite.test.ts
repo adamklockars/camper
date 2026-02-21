@@ -13,6 +13,7 @@ describe("platformSchema", () => {
     const platforms = [
       "recreation_gov",
       "parks_canada",
+      "ontario_parks",
       "reserve_america",
       "hipcamp",
       "glamping_hub",

@@ -26,6 +26,15 @@ import type {
   notificationSchema,
   notificationPreferencesSchema,
 } from "./schemas/notification";
+import type {
+  snipeSchema,
+  snipeStatusSchema,
+  equipmentTypeSchema,
+} from "./schemas/snipe";
+import type {
+  platformCredentialSchema,
+  platformCredentialListItemSchema,
+} from "./schemas/platform-credential";
 
 export type User = z.infer<typeof userSchema>;
 export type UserPreferences = z.infer<typeof userPreferencesSchema>;
@@ -42,3 +51,8 @@ export type Conversation = z.infer<typeof conversationSchema>;
 export type RichContent = z.infer<typeof richContentSchema>;
 export type Notification = z.infer<typeof notificationSchema>;
 export type NotificationPreferences = z.infer<typeof notificationPreferencesSchema>;
+export type Snipe = z.infer<typeof snipeSchema>;
+export type SnipeStatus = z.infer<typeof snipeStatusSchema>;
+export type EquipmentType = z.infer<typeof equipmentTypeSchema>;
+export type PlatformCredential = z.infer<typeof platformCredentialSchema>;
+export type PlatformCredentialListItem = z.infer<typeof platformCredentialListItemSchema>;
