@@ -1,21 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Trees, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Placeholder: In production this would call the Better Auth sign-up endpoint
-    setTimeout(() => setIsLoading(false), 1500);
+    setError("");
+
+    const { error: authError } = await authClient.signUp.email({
+      email,
+      password,
+      name,
+    });
+
+    if (authError) {
+      setError(authError.message ?? "Failed to create account");
+      setIsLoading(false);
+      return;
+    }
+
+    router.push("/dashboard");
   };
 
   return (
@@ -40,6 +57,12 @@ export default function SignUpPage() {
           {/* Google Sign Up */}
           <button
             type="button"
+            onClick={() =>
+              authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/dashboard",
+              })
+            }
             className="flex w-full items-center justify-center gap-3 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -149,6 +172,10 @@ export default function SignUpPage() {
                 Must be at least 8 characters
               </p>
             </div>
+
+            {error && (
+              <p className="text-sm text-error">{error}</p>
+            )}
 
             <button
               type="submit"
